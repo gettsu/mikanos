@@ -171,7 +171,7 @@ EFI_STATUS EFIAPI UefiMain(
   entry_point();
 
   Print(L"All done\n");
-  
+
   while (1);
   return EFI_SUCCESS;
 }
