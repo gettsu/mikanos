@@ -2,50 +2,8 @@
 #include <cstddef>
 
 #include "frame_buffer_config.hpp"
-
-struct PixelColor {
-  uint8_t r, g, b;
-};
-
-class PixelWriter {
- public:
-  PixelWriter(const FrameBufferConfig& config) : config_{config} {
-  }
-  virtual ~PixelWriter() = default;
-  virtual void Write(int x, int y, const PixelColor& c) = 0;
-
- protected:
-  uint8_t* PixelAt(int x, int y) {
-    return config_.frame_buffer + 4 * (config_.pixels_per_scan_line * y + x);
-  }
- 
- private:
-  const FrameBufferConfig& config_;
-};
-
-class RGBResv8BitPerColorPixelWriter : public PixelWriter {
- public:
-  using PixelWriter::PixelWriter;
-
-  virtual void Write(int x, int y, const PixelColor& c) override {
-    auto p = PixelAt(x, y);
-    p[0] = c.r;
-    p[1] = c.g;
-    p[2] = c.b;
-  }
-};
-
-class BGRResv8BitPerColorPixelWriter : public PixelWriter {
- public:
-  using PixelWriter::PixelWriter;
-
-  virtual void Write(int x, int y, const PixelColor& c) override {
-    auto p = PixelAt(x, y);
-    p[0] = c.b;
-    p[1] = c.g;
-    p[2] = c.r;
-  }
-};
+#include "graphics.hpp"
+#include "font.hpp"
 
 void* operator new(size_t size, void* buf) {
   return buf;
@@ -68,15 +26,19 @@ extern "C" void KernelMain(const FrameBufferConfig& frame_buffer_config) {
         BGRResv8BitPerColorPixelWriter{frame_buffer_config};
       break;
   }
-  for (int x = 0; x < frame_buffer_config.horizontal_reoslution; ++x) {
+  for (int x = 0; x < frame_buffer_config.horizontal_resolution; ++x) {
     for (int y = 0; y < frame_buffer_config.vertical_resolution; ++y) {
       pixel_writer->Write(x, y, {255, 255, 255});
     }
   }
   for (int x = 0; x < 200; ++x) {
     for (int y = 0; y < 100; ++y) {
-      pixel_writer->Write(100 + x, 100 + y, {100, 100, 0});
+      pixel_writer->Write(x, y, {100, 100, 0});
     }
+  }
+  int i = 0;
+  for (char c = '!'; c <= '~'; ++c, ++i) {
+    WriteAscii(*pixel_writer, 8 * i, 50, c, {0, 0, 0});
   }
   while (1) __asm__("hlt");
 }
