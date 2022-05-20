@@ -5,11 +5,11 @@
 namespace {
   template <class T>
   T Ceil(T value, unsigned int alignment) {
-    return (value + alignment - 1)& ~static_cast<T>(alignment - 1);
+    return (value + alignment - 1) & ~static_cast<T>(alignment - 1);
   }
 
   template <class T, class U>
-  T MaskBIts(T value,  U mask) {
+  T MaskBits(T value, U mask) {
     return value & ~static_cast<T>(mask - 1);
   }
 }

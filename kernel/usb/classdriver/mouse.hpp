@@ -1,3 +1,9 @@
+/**
+ * @file usb/classdriver/mouse.hpp
+ *
+ * HID mouse class driver.
+ */
+
 #pragma once
 
 #include <functional>

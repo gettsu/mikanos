@@ -28,7 +28,7 @@ class Error {
     kNoWaiter,
     kLastOfCode,
   };
- 
+
  private:
   static constexpr std::array code_names_{
     "kSuccess",
@@ -53,7 +53,7 @@ class Error {
     "kNoWaiter",
   };
   static_assert(Error::Code::kLastOfCode == code_names_.size());
-  
+
  public:
   Error(Code code, const char* file, int line) : code_{code}, line_{line}, file_{file} {}
 

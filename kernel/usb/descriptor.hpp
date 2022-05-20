@@ -1,3 +1,9 @@
+/**
+ * @file usb/descriptor.hpp
+ *
+ * USB Descriptor の定義集．
+ */
+
 #pragma once
 
 #include <cstdint>

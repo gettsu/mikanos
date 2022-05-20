@@ -1,3 +1,9 @@
+/**
+ * @file usb/classdriver/hid.hpp
+ *
+ * HID base class driver.
+ */
+
 #pragma once
 
 #include "usb/classdriver/base.hpp"

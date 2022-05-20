@@ -5,10 +5,9 @@
 
 #include "console.hpp"
 
-namespace{
+namespace {
   LogLevel log_level = kWarn;
 }
-
 
 extern Console* console;
 
@@ -20,6 +19,7 @@ int Log(LogLevel level, const char* format, ...) {
   if (level > log_level) {
     return 0;
   }
+
   va_list ap;
   int result;
   char s[1024];

@@ -1,3 +1,9 @@
+/**
+ * @file usb/endpoint.hpp
+ *
+ * エンドポイント設定に関する機能．
+ */
+
 #pragma once
 
 #include "error.hpp"
@@ -28,26 +34,31 @@ namespace usb {
       return *this;
     }
 
-    /** エンドポイントアドレス **/
+    /** エンドポイントアドレス（0..31） */
     int Address() const { return addr_; }
-    /** エンドポイント番号 **/
+
+    /** エンドポイント番号（0..15） */
     int Number() const { return addr_ >> 1; }
-    /** 入出力方向 **/
+
+    /** 入出力方向．Control エンドポイントは true */
     bool IsIn() const { return addr_ & 1; }
 
    private:
     int addr_;
   };
-  
+
   constexpr EndpointID kDefaultControlPipeID{0, true};
 
   struct EndpointConfig {
     /** エンドポイント ID */
     EndpointID ep_id;
+
     /** このエンドポイントの種別 */
     EndpointType ep_type;
+
     /** このエンドポイントの最大パケットサイズ（バイト） */
     int max_packet_size;
+
     /** このエンドポイントの制御周期（125*2^(interval-1) マイクロ秒） */
     int interval;
   };

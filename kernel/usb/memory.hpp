@@ -3,12 +3,13 @@
  *
  * USB ドライバ用の動的メモリ管理機能
  */
+
 #pragma once
 
 #include <cstddef>
 
 namespace usb {
-  /** @brief 動的メモリ確保のためのメモリプールの最大容量 **/
+  /** @brief 動的メモリ確保のためのメモリプールの最大容量（バイト） */
   static const size_t kMemoryPoolSize = 4096 * 32;
 
   /** @brief 指定されたバイト数のメモリ領域を確保して先頭ポインタを返す．
@@ -30,8 +31,10 @@ namespace usb {
         AllocMem(sizeof(T) * num_obj, alignment, boundary));
   }
 
+  /** @brief 指定されたメモリ領域を解放する．本当に解放することは保証されない． */
   void FreeMem(void* p);
 
+  /** @brief 標準コンテナ用のメモリアロケータ */
   template <class T, unsigned int Alignment = 64, unsigned int Boundary = 4096>
   class Allocator {
    public:

@@ -1,3 +1,9 @@
+/**
+ * @file usb/device.hpp
+ *
+ * USB デバイスを表すクラスと関連機能．
+ */
+
 #pragma once
 
 #include <array>
@@ -24,7 +30,7 @@ namespace usb {
     bool IsInitialized() { return is_initialized_; }
     EndpointConfig* EndpointConfigs() { return ep_configs_.data(); }
     int NumEndpointConfigs() { return num_ep_configs_; }
-    Error OnEndpointConfigured();
+    Error OnEndpointsConfigured();
 
     uint8_t* Buffer() { return buf_.data(); }
 
@@ -43,21 +49,22 @@ namespace usb {
 
     std::array<uint8_t, 256> buf_{};
 
+    // following fields are used during initialization
     uint8_t num_configurations_;
     uint8_t config_index_;
 
     Error OnDeviceDescriptorReceived(const uint8_t* buf, int len);
     Error OnConfigurationDescriptorReceived(const uint8_t* buf, int len);
-    Error OnSetConfigurationcompleted(uint8_t config_value);
+    Error OnSetConfigurationCompleted(uint8_t config_value);
 
     bool is_initialized_ = false;
-    int initialized_phase_ = 0;
+    int initialize_phase_ = 0;
     std::array<EndpointConfig, 16> ep_configs_;
     int num_ep_configs_;
-    Error IsInitializePhase1(const uint8_t* buf, int len);
-    Error IsInitializePhase2(const uint8_t* buf, int len);
-    Error IsInitializePhase3(uint8_t config_value);
-    Error IsInitializePhase4();
+    Error InitializePhase1(const uint8_t* buf, int len);
+    Error InitializePhase2(const uint8_t* buf, int len);
+    Error InitializePhase3(uint8_t config_value);
+    Error InitializePhase4();
 
     /** OnControlCompleted の中で要求の発行元を特定するためのマップ構造．
      * ControlOut または ControlIn を発行したときに発行元が登録される．
@@ -68,6 +75,6 @@ namespace usb {
   Error GetDescriptor(Device& dev, EndpointID ep_id,
                       uint8_t desc_type, uint8_t desc_index,
                       void* buf, int len, bool debug = false);
-  Error SetConfiguration(Device &dev, EndpointID ep_id,
+  Error SetConfiguration(Device& dev, EndpointID ep_id,
                          uint8_t config_value, bool debug = false);
 }

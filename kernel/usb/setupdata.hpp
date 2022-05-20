@@ -1,18 +1,19 @@
 #pragma once
 
-#include <cstdint>
-
 namespace usb {
   namespace request_type {
+    // bmRequestType recipient
     const int kDevice = 0;
     const int kInterface = 1;
     const int kEndpoint = 2;
     const int kOther = 3;
 
+    // bmRequestType type
     const int kStandard = 0;
     const int kClass = 1;
     const int kVendor = 2;
 
+    // bmRequestType direction
     const int kOut = 0;
     const int kIn = 1;
   }
@@ -43,6 +44,7 @@ namespace usb {
     const int kSetSel = 48;
     const int kSetIsochDelay = 49;
 
+    // HID class specific report values
     const int kGetReport = 1;
     const int kSetProtocol = 11;
   }
@@ -88,3 +90,4 @@ namespace usb {
       lhs.length == rhs.length;
   }
 }
+

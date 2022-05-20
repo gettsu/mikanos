@@ -4,6 +4,6 @@ namespace usb {
   ClassDriver::ClassDriver(Device* dev) : dev_{dev} {
   }
 
-  classDriver::~ClassDriver(){
+  ClassDriver::~ClassDriver() {
   }
 }
