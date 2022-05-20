@@ -2,4 +2,6 @@ compile_flags.txt
 *.o
 *.elf
 *.img
+.cache
+compile_commands.json
 
