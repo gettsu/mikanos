@@ -8,7 +8,7 @@
 template <typename T>
 class ArrayQueue {
  public:
-  template<size_t N>
+  template <size_t N>
   ArrayQueue(std::array<T, N>& buf);
   ArrayQueue(T* buf, size_t size);
   Error Push(const T& value);
