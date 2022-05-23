@@ -2,7 +2,7 @@
 
 std::array<InterruptDescriptor, 256> idt;
 
-void SetIDTEntry(InterruptDescriptor &desc,
+void SetIDTEntry(InterruptDescriptor& desc,
                  InterruptDescriptorAttribute attr,
                  uint64_t offset,
                  uint16_t segment_selector) {
