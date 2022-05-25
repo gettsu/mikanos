@@ -8,7 +8,7 @@ namespace {
   volatile uint32_t& divide_config = *reinterpret_cast<uint32_t*>(0xfee003e0);
 }
 
-void InitializeAPICTimer() {
+void InitializeLAPICTimer() {
   divide_config = 0b1011;
   lvt_timer = (0b001 << 16) | 32;
 }
