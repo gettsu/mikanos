@@ -103,6 +103,7 @@ void TaskManager::SwitchTask(bool current_sleep) {
   }
 
   if (level_changed_) {
+    level_changed_ = false;
     for (int lv = kMaxLevel; lv >= 0; --lv) {
       if (!running_[lv].empty()) {
         current_level_ = lv;
@@ -169,7 +170,7 @@ Error TaskManager::Wakeup(uint64_t id, int level) {
     return MAKE_ERROR(Error::kNoSuchTask);
   }
 
-  Wakeup(it->get());
+  Wakeup(it->get(), level);
   return MAKE_ERROR(Error::kSuccess);
 }
 
@@ -204,12 +205,14 @@ void TaskManager::ChangeLevelRunning(Task* task, int level) {
   }
 
   running_[current_level_].pop_front();
-  running_[level].push_back(task);
+  running_[level].push_front(task);
   task->SetLevel(level);
-  if (level > current_level_) {
+  if (level >= current_level_) {
+    current_level_ = level;
+  } else {
+    current_level_ = level;
     level_changed_ = true;
   }
-  return;
 }
 
 TaskManager* task_manager;
