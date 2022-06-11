@@ -128,6 +128,7 @@ extern "C" void KernelMainNewStack(
   InitializeMemoryManager(memory_map);
   InitializeInterrupt();
 
+  fat::Initialize(volume_image);
   InitializePCI();
 
   InitializeLayer();
